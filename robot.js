@@ -26,38 +26,60 @@ var camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
 camera.position.set(15.0, 15.0, 15.0);
 
 
-// arm
-var telescope_geometry = new THREE.CylinderGeometry(0.25, 0.25, 3);
-var telescope_material = new THREE.MeshPhongMaterial();
-telescope_material.color = new THREE.Color("green");
-var telescope_mesh = new THREE.Mesh(telescope_geometry, telescope_material);
-telescope_mesh.position.y = 1.5;
+// left arm
+var L_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 3);
+var L_arm_material = new THREE.MeshPhongMaterial();
+L_arm_material.color = new THREE.Color("black");
+var L_arm_mesh = new THREE.Mesh(L_arm_geometry, L_arm_material);
+L_arm_mesh.position.y = 3;
+
+// right arm
+var R_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 3);
+var R_arm_material = new THREE.MeshPhongMaterial();
+R_arm_material.color = new THREE.Color("black");
+var R_arm_mesh = new THREE.Mesh(R_arm_geometry, R_arm_material);
+R_arm_mesh.position.y = -3;
+
 
 var elevation = new THREE.Group();
-elevation.add(telescope_mesh);
+elevation.add(R_arm_mesh);
+elevation.add(L_arm_mesh);
+
 
 // body
-var dome_geometry = new THREE.CylinderGeometry(1, 1, 3);
-var dome_material = new THREE.MeshPhongMaterial();
-dome_material.color = new THREE.Color("silver");
-var dome_mesh = new THREE.Mesh(dome_geometry, dome_material);
+var torso_geometry = new THREE.CylinderGeometry(1, 1, 2);
+var torso_material = new THREE.MeshPhongMaterial();
+torso_material.color = new THREE.Color("silver");
+var torso_mesh = new THREE.Mesh(torso_geometry, torso_material);
 
-var torso = new THREE.Group();
-torso.add(dome_mesh);
-torso.rotation.z = 1.5*Math.PI;
-torso.add(elevation);
-torso.position.y = 4;
+var body = new THREE.Group();
+body.add(torso_mesh);
+body.rotation.z = 1.5*Math.PI;
+body.add(elevation);
+body.position.y = 4;
 
-// base
-var base_geometry = new THREE.CylinderGeometry(2, 2, 4);
-var base_material = new THREE.MeshPhongMaterial();
-base_material.color = new THREE.Color("purple");
-var base_mesh = new THREE.Mesh(base_geometry, base_material);
-base_mesh.position.y = 2;
+// left leg
+var L_leg_geometry = new THREE.BoxGeometry(1, 2.5, 1);
+var L_leg_material = new THREE.MeshPhongMaterial();
+L_leg_material.color = new THREE.Color("purple");
+var L_leg_mesh = new THREE.Mesh(L_leg_geometry, L_leg_material);
+L_leg_mesh.position.y = 1.5; // above ground
+L_leg_mesh.position.x = 1;
+var L_hip = new THREE.Group();
+L_hip.add(L_leg_mesh);
+
+// right leg
+var R_leg_geometry = new THREE.BoxGeometry(1, 2.5, 1);
+var R_leg_material = new THREE.MeshPhongMaterial();
+R_leg_material.color = new THREE.Color("purple");
+var R_leg_mesh = new THREE.Mesh(R_leg_geometry, R_leg_material);
+R_leg_mesh.position.y = 1.5; // above ground
+R_leg_mesh.position.x = -1;
 
 var robot = new THREE.Group();
-robot.add(base_mesh);
-robot.add(torso);
+robot.add(L_hip);
+robot.add(R_leg_mesh);
+robot.add(body);
 
 
 scene.add(robot);
@@ -78,8 +100,8 @@ document.body.appendChild(stats.dom);
 var gui = new dat.GUI();
 var h = gui.addFolder("Pose Parameters");
 h.open();
-h.add(elevation.rotation, "z", 0*Math.PI, 0.5*Math.PI, 0.01).name("Elevation Angle");
-h.add(torso.rotation, "y", 0.0, 2*Math.PI, 0.01).name("Torso Angle");
+h.add(elevation.rotation, "z", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Elevation Angle");
+h.add(body.rotation, "y", 0.0, Math.PI, 0.01).name("Torso Angle");
 
 // controls
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
