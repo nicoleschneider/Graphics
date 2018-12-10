@@ -155,7 +155,6 @@ var R_shoulder = new THREE.Group();
 R_shoulder.add(right_arm);
 
 var L_shoulder = new THREE.Group();
-//L_shoulder.add(L_arm_mesh);
 L_shoulder.add(left_arm);
 
 // head
@@ -192,6 +191,15 @@ torso.add(R_shoulder);
 body.position.y = 4;
 body.add(torso);
 
+// left lower leg
+var LL_leg_geometry = new THREE.BoxGeometry(2.5, 1, 1);
+var LL_leg_material = getShinyMaterial();
+LL_leg_material.color = new THREE.Color("black");
+var LL_leg_mesh = new THREE.Mesh(LL_leg_geometry, LL_leg_material);
+LL_leg_mesh.position.x = 1;
+LL_leg_mesh.rotation.y = Math.PI;;
+LL_leg_mesh.castShadow = true;
+
 // left leg
 var L_leg_geometry = new THREE.BoxGeometry(1, 2.5, 1);
 var L_leg_material =  new THREE.MeshStandardMaterial({roughness: 0.2, metalness: 0.5});
@@ -202,8 +210,28 @@ L_leg_mesh.position.x = 2;
 //L_leg_mesh.position.z = 1;
 L_leg_mesh.castShadow = true;
 L_leg_mesh.rotation.z = -Math.PI/2;
+
+// left knee
+var left_knee = new THREE.Group();
+left_knee.add(LL_leg_mesh);
+left_knee.position.y = 1.5;
+left_knee.position.x = 3.5;
+var left_leg = new THREE.Group();
+left_leg.add(left_knee);
+left_leg.add(L_leg_mesh);
+
 var L_hip = new THREE.Group();
-L_hip.add(L_leg_mesh);
+L_hip.add(left_leg);
+
+
+// right lower leg
+var RL_leg_geometry = new THREE.BoxGeometry(2.5, 1, 1);
+var RL_leg_material = getShinyMaterial();
+RL_leg_material.color = new THREE.Color("black");
+var RL_leg_mesh = new THREE.Mesh(RL_leg_geometry, RL_leg_material);
+RL_leg_mesh.position.x = 1;
+RL_leg_mesh.rotation.y = Math.PI;;
+RL_leg_mesh.castShadow = true;
 
 // right leg
 var R_leg_geometry = new THREE.BoxGeometry(1, 2.5, 1);
@@ -214,15 +242,25 @@ R_leg_mesh.castShadow = true;
 R_leg_mesh.position.y = -1.5;
 R_leg_mesh.position.x = 2;
 R_leg_mesh.rotation.z = -Math.PI/2;
+
+// right knee
+var right_knee = new THREE.Group();
+right_knee.add(RL_leg_mesh);
+right_knee.position.y = -1.5;
+right_knee.position.x = 3.5;
+var right_leg = new THREE.Group();
+right_leg.add(right_knee);
+right_leg.add(R_leg_mesh);
+
 var R_hip = new THREE.Group();
-R_hip.add(R_leg_mesh);
+R_hip.add(right_leg);
 
 var robot = new THREE.Group();
 body.add(L_hip);
 body.add(R_hip);
 robot.add(body);
 
-
+robot.position.y = 1.75;
 scene.add(robot);
 
 
@@ -256,8 +294,10 @@ h.add(right_elbow.rotation, "x", -0.25*Math.PI, 0, 0.01).name("Right Elbow Angle
 h.add(L_shoulder.rotation, "z", -0.25*Math.PI, 0.25*Math.PI, 0.01).name("Left Shoulder Angle");
 h.add(left_elbow.rotation, "x", 0, 0.25*Math.PI, 0.01).name("Left Elbow Angle");
 h.add(torso.rotation, "x", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Torso Angle");
-h.add(R_hip.rotation, "y", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Right Hip Rotation");
-h.add(L_hip.rotation, "y", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Left Hip Rotation");
+h.add(R_hip.rotation, "y", -0.25*Math.PI, 0.25*Math.PI, 0.01).name("Right Hip Rotation");
+h.add(right_knee.rotation, "y", 0, 0.75*Math.PI, 0.01).name("Right Knee Angle");
+h.add(L_hip.rotation, "y", -0.25*Math.PI, 0.25*Math.PI, 0.01).name("Left Hip Rotation");
+h.add(left_knee.rotation, "y", 0, 0.75*Math.PI, 0.01).name("Left Knee Angle");
 h.add(neck.rotation, "x", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Neck Rotation");
 
 // controls
