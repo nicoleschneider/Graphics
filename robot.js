@@ -124,17 +124,24 @@ R_shoulder.add(R_arm_mesh);
 var L_shoulder = new THREE.Group();
 L_shoulder.add(L_arm_mesh);
 
+// head
+var head_geometry = new THREE.SphereGeometry(1, 20, 20);
+var head_material = getShinyMaterial();
+head_material.castShadow = true;
+head_material.color = new THREE.Color("black");
+var head_mesh = new THREE.Mesh(head_geometry, head_material);
+head_mesh.position.x = -2;
+head_mesh.castShadow = true;
+
+var neck = new THREE.Group();
+neck.add(head_mesh);
 
 // body
 var torso_geometry = new THREE.CylinderGeometry(1, 1, 2);
 //var torso_material = new THREE.MeshLambertMaterial();
 //var torso_material = new THREE.MeshStandardMaterial({roughness: 0});
 // https://medium.com/@soffritti.pierfrancesco/glossy-spheres-in-three-js-bfd2785d4857
-var torso_material = new THREE.MeshPhongMaterial( { 
-    color: 0x996633,
-    specular: 0x050505,
-    shininess: 500
-} ) 
+var torso_material = getShinyMaterial();
 torso_material.castShadow = true;
 torso_material.color = new THREE.Color("gray");
 var torso_mesh = new THREE.Mesh(torso_geometry, torso_material);
@@ -142,6 +149,7 @@ torso_mesh.castShadow = true;
 
 var torso = new THREE.Group();
 torso.add(torso_mesh);
+torso.add(neck);
 
 var body = new THREE.Group();
 body.rotation.z = 1.5*Math.PI;
@@ -214,6 +222,7 @@ h.add(L_shoulder.rotation, "z", -0.25*Math.PI, 0.25*Math.PI, 0.01).name("Left Sh
 h.add(torso.rotation, "x", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Torso Angle");
 h.add(R_hip.rotation, "y", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Right Hip Rotation");
 h.add(L_hip.rotation, "y", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Left Hip Rotation");
+h.add(neck.rotation, "x", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Neck Rotation");
 
 // controls
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
