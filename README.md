@@ -6,12 +6,16 @@ Nicole Schneider
 
 I hierarchically modeled a robot and added lighting effects, shadows, and a shiny surface on the Robot itself.
 
+I used THREE.Group() to combine meshes and create joints that mimicked how a human-like robot would move. The biggest challenge with the model was getting the shoulder joints to move the entire arm, including the elbow joint.
+
+I implemented 2 effects in addition to the hierarchical model, a shadow that moves as the camera moves, and a shiny metallic surface on the robot itself. I also used 4 different types of lighting: spotlight, directional light, point light, and hemisphere light.
+
 # Link to GitHub Website:
 ***
 [Click Here](https://nicoleschneider.github.io/Graphics/)
 ***
 
-![pic]()
+![Image](/screenshot.jpg)
 ## Sources:
 
 ***
