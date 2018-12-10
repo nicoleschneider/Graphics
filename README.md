@@ -1,4 +1,4 @@
-## CS486 Computer Graphics Final Project
+# CS486 Computer Graphics Final Project
 
 Nicole Schneider
 
@@ -10,8 +10,10 @@ I used THREE.Group() to combine meshes and create joints that mimicked how a hum
 
 I implemented 2 effects in addition to the hierarchical model, a shadow that moves as the camera moves, and a shiny metallic surface on the robot itself. I also used 4 different types of lighting: spotlight, directional light, point light, and hemisphere light.
 
-## Link to GitHub Website:
 ***
+
+## Link to GitHub Website:
+
 [Click Here](https://nicoleschneider.github.io/Graphics/)
 ***
 
@@ -21,8 +23,6 @@ I implemented 2 effects in addition to the hierarchical model, a shadow that mov
 ***
 
 ## Sources:
-
-***
 
 [Using Standard Material](https://medium.com/@soffritti.pierfrancesco/glossy-spheres-in-three-js-bfd2785d4857)
 
