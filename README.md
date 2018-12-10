@@ -2,24 +2,24 @@
 
 Nicole Schneider
 
-### Markdown
+### THREE.js Robot Model
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+I hierarchically modeled a robot and added lighting effects, shadows, and a shiny surface on the Robot itself.
 
-```markdown
-Syntax highlighted code block
+# Sources:
 
-# Header 1
+***
 
-## Sources:
+[Using Standard Material](https://medium.com/@soffritti.pierfrancesco/glossy-spheres-in-three-js-bfd2785d4857)
 
-- Bulleted
-- List
+[Directional Lighting](https://stackoverflow.com/questions/15478093/realistic-lighting-sunlight-with-three-js)
 
-1. Numbered
-2. List
+[Adding the Ground](https://stackoverflow.com/questions/29916886/three-js-add-plane-to-the-scene)
 
-**Bold** and _Italic_ and `Code` text
+[Creating a shadow](https://threejs.org/docs/#api/en/lights/shadows/LightShadow)
 
-[Link](https://medium.com/@soffritti.pierfrancesco/glossy-spheres-in-three-js-bfd2785d4857)
-```
+[Working with Spotlights](https://css-tricks.com/creating-photorealistic-3d-graphics-web/)
+
+[Using Point Light](http://jsfiddle.net/gero3/2tcPH/7/)
+
+***
