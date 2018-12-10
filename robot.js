@@ -140,21 +140,26 @@ torso_material.color = new THREE.Color("gray");
 var torso_mesh = new THREE.Mesh(torso_geometry, torso_material);
 torso_mesh.castShadow = true;
 
+var torso = new THREE.Group();
+torso.add(torso_mesh);
+
 var body = new THREE.Group();
-body.add(torso_mesh);
 body.rotation.z = 1.5*Math.PI;
-body.add(L_shoulder);
-body.add(R_shoulder);
+torso.add(L_shoulder);
+torso.add(R_shoulder);
 body.position.y = 4;
+body.add(torso);
 
 // left leg
 var L_leg_geometry = new THREE.BoxGeometry(1, 2.5, 1);
 var L_leg_material =  new THREE.MeshStandardMaterial({roughness: 0.2, metalness: 0.5});
 L_leg_material.color = new THREE.Color("black");
 var L_leg_mesh = new THREE.Mesh(L_leg_geometry, L_leg_material);
-L_leg_mesh.position.y = 1.5; // above ground
-L_leg_mesh.position.x = 1;
+L_leg_mesh.position.y = 1.5; 
+L_leg_mesh.position.x = 2;
+//L_leg_mesh.position.z = 1;
 L_leg_mesh.castShadow = true;
+L_leg_mesh.rotation.z = -Math.PI/2;
 var L_hip = new THREE.Group();
 L_hip.add(L_leg_mesh);
 
@@ -164,12 +169,15 @@ var R_leg_material = new THREE.MeshStandardMaterial({roughness: 0.2, metalness: 
 R_leg_material.color = new THREE.Color("black");
 var R_leg_mesh = new THREE.Mesh(R_leg_geometry, R_leg_material);
 R_leg_mesh.castShadow = true;
-R_leg_mesh.position.y = 1.5; // above ground
-R_leg_mesh.position.x = -1;
+R_leg_mesh.position.y = -1.5;
+R_leg_mesh.position.x = 2;
+R_leg_mesh.rotation.z = -Math.PI/2;
+var R_hip = new THREE.Group();
+R_hip.add(R_leg_mesh);
 
 var robot = new THREE.Group();
-robot.add(L_hip);
-robot.add(R_leg_mesh);
+body.add(L_hip);
+body.add(R_hip);
 robot.add(body);
 
 
@@ -203,7 +211,9 @@ var h = gui.addFolder("Pose Parameters");
 h.open();
 h.add(R_shoulder.rotation, "z", -0.25*Math.PI, 0.25*Math.PI, 0.01).name("Right Shoulder Angle");
 h.add(L_shoulder.rotation, "z", -0.25*Math.PI, 0.25*Math.PI, 0.01).name("Left Shoulder Angle");
-h.add(body.rotation, "y", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Torso Angle");
+h.add(torso.rotation, "x", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Torso Angle");
+h.add(R_hip.rotation, "y", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Right Hip Rotation");
+h.add(L_hip.rotation, "y", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Left Hip Rotation");
 
 // controls
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
