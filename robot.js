@@ -20,7 +20,7 @@ document.body.appendChild(renderer.domElement);
 var scene = new THREE.Scene();
 
 // show axes
-var axesHelper = new THREE.AxesHelper(10);
+var axesHelper = new THREE.AxesHelper(30);
 scene.add(axesHelper);
 
 
@@ -28,7 +28,7 @@ scene.add(axesHelper);
 // camera
 var aspect = window.innerWidth / window.innerHeight;
 var camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-camera.position.set(15.0, 15.0, 15.0);
+camera.position.set(20.0, 15.0, 15.0);
 
 
 
@@ -64,7 +64,7 @@ var light_ambient = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(light_ambient);
 var light_point = new THREE.PointLight();
 light_point.intensity = 0.6;
-light_point.position.set(camera.position.x+5, camera.position.y+5, camera.position.z+5);
+light_point.position.set(camera.position.x+5, camera.position.y+15, camera.position.z+5);
 light_point.castShadow = true;
 light_point.shadow.camera.near = 0.001;       
 light_point.shadow.camera.far = 120;      
@@ -103,20 +103,32 @@ var d = 300;
 //dirLight.shadowCameraFar = 350;
 //dirLight.shadowBias = -0.50001;
 dirLight.shadowDarkness = 0.65;
-//scene.add(dirLight);
+/////////scene.add(dirLight);
 
 // add hemisphere light
 var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.2 );
-hemiLight.position.set( 0, 500, 0 );
+hemiLight.position.set( 10, 500, 10 );
 scene.add( hemiLight );
 
 var spotLight = new THREE.SpotLight(0xffffff, 1);
-//var spotLight_01 = getSpotlight();
 spotLight.castShadow = true;
-scene.add(spotLight);
+
 spotLight.position.x = 6;
 spotLight.position.y = 18;
-spotLight.position.z = -20;
+spotLight.position.z = 20;
+
+spotLight.position.copy( camera.position );
+
+
+spotLight.shadow.camera.near = 0.5;
+spotLight.shadow.camera.far = 50.0;
+
+function light_update()
+{
+    spotLight.position.copy( camera.position );
+	spotLight.position.y+=5;
+}
+scene.add(spotLight);
 
 // left arm
 var L_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 3);
@@ -155,7 +167,7 @@ var torso_material = new THREE.MeshPhongMaterial( {
     shininess: 500
 } ) 
 torso_material.castShadow = true;
-torso_material.color = new THREE.Color("silver");
+torso_material.color = new THREE.Color("gray");
 var torso_mesh = new THREE.Mesh(torso_geometry, torso_material);
 torso_mesh.castShadow = true;
 
@@ -168,7 +180,7 @@ body.position.y = 4;
 // left leg
 var L_leg_geometry = new THREE.BoxGeometry(1, 2.5, 1);
 var L_leg_material =  new THREE.MeshStandardMaterial({roughness: 0.2, metalness: 0.5});
-L_leg_material.color = new THREE.Color("purple");
+L_leg_material.color = new THREE.Color("black");
 var L_leg_mesh = new THREE.Mesh(L_leg_geometry, L_leg_material);
 L_leg_mesh.position.y = 1.5; // above ground
 L_leg_mesh.position.x = 1;
@@ -179,7 +191,7 @@ L_hip.add(L_leg_mesh);
 // right leg
 var R_leg_geometry = new THREE.BoxGeometry(1, 2.5, 1);
 var R_leg_material = new THREE.MeshStandardMaterial({roughness: 0.2, metalness: 0.5});
-R_leg_material.color = new THREE.Color("purple");
+R_leg_material.color = new THREE.Color("black");
 var R_leg_mesh = new THREE.Mesh(R_leg_geometry, R_leg_material);
 R_leg_mesh.castShadow = true;
 R_leg_mesh.position.y = 1.5; // above ground
@@ -197,10 +209,10 @@ scene.add(robot);
 
 
 // ground plane grid
-var gridHelper = new THREE.GridHelper(10, 10);
+var gridHelper = new THREE.GridHelper(20, 20);
 scene.add(gridHelper);
-var planeGeometry = new THREE.PlaneBufferGeometry( 20, 20, 32, 32 );
-var planeMaterial = new THREE.MeshStandardMaterial( { color: 0x00ff00 } )
+var planeGeometry = new THREE.PlaneBufferGeometry( 40, 40, 32, 32 );
+var planeMaterial = new THREE.MeshStandardMaterial( { color: 0xadd8e6 } )
 var plane = new THREE.Mesh( planeGeometry, planeMaterial );
 //var geometry = new THREE.PlaneGeometry( 10, 10, 10 );
 //var material = new THREE.MeshBasicMaterial( {color: 0x000f000, side: THREE.DoubleSide} );
@@ -227,6 +239,7 @@ h.add(body.rotation, "y", 0.0, Math.PI, 0.01).name("Torso Angle");
 
 // controls
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.addEventListener( 'change', light_update );
 
 // start off animation
 animate();
