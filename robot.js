@@ -66,14 +66,14 @@ var light_point = new THREE.PointLight();
 light_point.intensity = 0.6;
 light_point.position.set(camera.position.x+5, camera.position.y+5, camera.position.z+5);
 light_point.castShadow = true;
-light_point.shadow.camera.near = 0.1;       
-light_point.shadow.camera.far = 12000;      
-light_point.shadow.camera.left = -50;
-light_point.shadow.camera.bottom = -50;
-light_point.shadow.camera.right = 50;
-light_point.shadow.camera.top = 50;
-//light_point.shadow.mapSize.width = 2048;
-//light_point.shadow.mapSize.height = 2048;
+light_point.shadow.camera.near = 0.001;       
+light_point.shadow.camera.far = 120;      
+light_point.shadow.camera.left = -500;
+light_point.shadow.camera.bottom = -500;
+light_point.shadow.camera.right = 500;
+light_point.shadow.camera.top = 500;
+light_point.shadow.mapSize.width = 2048;
+light_point.shadow.mapSize.height = 2048;
 scene.add(light_point);
 
 // add directional light
@@ -115,7 +115,7 @@ var spotLight = new THREE.SpotLight(0xffffff, 1);
 spotLight.castShadow = true;
 scene.add(spotLight);
 spotLight.position.x = 6;
-spotLight.position.y = 8;
+spotLight.position.y = 18;
 spotLight.position.z = -20;
 
 // left arm
@@ -124,7 +124,7 @@ var L_arm_material = new THREE.MeshPhongMaterial();
 L_arm_material.color = new THREE.Color("black");
 var L_arm_mesh = new THREE.Mesh(L_arm_geometry, L_arm_material);
 L_arm_mesh.position.y = 3;
-L_arm_mesh.position.castShadow = true;
+L_arm_mesh.castShadow = true;
 
 // right arm
 var R_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 3);
@@ -136,6 +136,7 @@ var R_arm_material = new THREE.MeshPhongMaterial( {
 R_arm_material.color = new THREE.Color("black");
 var R_arm_mesh = new THREE.Mesh(R_arm_geometry, R_arm_material);
 R_arm_mesh.position.y = -3;
+R_arm_mesh.castShadow = true;
 
 
 var elevation = new THREE.Group();
@@ -156,6 +157,7 @@ var torso_material = new THREE.MeshPhongMaterial( {
 torso_material.castShadow = true;
 torso_material.color = new THREE.Color("silver");
 var torso_mesh = new THREE.Mesh(torso_geometry, torso_material);
+torso_mesh.castShadow = true;
 
 var body = new THREE.Group();
 body.add(torso_mesh);
