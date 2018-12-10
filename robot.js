@@ -101,31 +101,65 @@ spotLight.shadow.camera.far = 50.0;
 scene.add(spotLight);
 
 
+// left forearm
+var LF_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 2);
+var LF_arm_material = getShinyMaterial();
+LF_arm_material.color = new THREE.Color("black");
+var LF_arm_mesh = new THREE.Mesh(LF_arm_geometry, LF_arm_material);
+LF_arm_mesh.position.y = 1;
+LF_arm_mesh.castShadow = true;
 
-// left arm
-var L_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 3);
+// left upper arm
+var L_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 2);
 var L_arm_material = getShinyMaterial();
 L_arm_material.color = new THREE.Color("black");
 var L_arm_mesh = new THREE.Mesh(L_arm_geometry, L_arm_material);
-L_arm_mesh.position.y = 3;
+L_arm_mesh.position.y = 2;
 L_arm_mesh.castShadow = true;
 
-// right arm
-var R_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 3);
+// left elbow
+var left_elbow = new THREE.Group();
+left_elbow.add(LF_arm_mesh);
+left_elbow.position.y = 3;
+var left_arm = new THREE.Group();
+left_arm.add(left_elbow);
+left_arm.add(L_arm_mesh);
+
+// right forearm
+var RF_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 2);
+var RF_arm_material = getShinyMaterial();
+RF_arm_material.color = new THREE.Color("black");
+var RF_arm_mesh = new THREE.Mesh(RF_arm_geometry, RF_arm_material);
+RF_arm_mesh.position.y = -1;
+RF_arm_mesh.castShadow = true;
+
+// right upper arm
+var R_arm_geometry = new THREE.CylinderGeometry(0.25, 0.25, 2);
 var R_arm_material = getShinyMaterial();
 R_arm_material.color = new THREE.Color("black");
 var R_arm_mesh = new THREE.Mesh(R_arm_geometry, R_arm_material);
-R_arm_mesh.position.y = -3;
+R_arm_mesh.position.y = -2;
 R_arm_mesh.castShadow = true;
 
+// right elbow
+var right_elbow = new THREE.Group();
+right_elbow.add(RF_arm_mesh);
+right_elbow.position.y = -3;
+var right_arm = new THREE.Group();
+right_arm.add(right_elbow);
+right_arm.add(R_arm_mesh);
 
+
+// shoulders
 var R_shoulder = new THREE.Group();
-R_shoulder.add(R_arm_mesh);
+R_shoulder.add(right_arm);
+
 var L_shoulder = new THREE.Group();
-L_shoulder.add(L_arm_mesh);
+//L_shoulder.add(L_arm_mesh);
+L_shoulder.add(left_arm);
 
 // head
-var head_geometry = new THREE.SphereGeometry(1, 20, 20);
+var head_geometry = new THREE.SphereGeometry(1, 8, 8);
 var head_material = getShinyMaterial();
 head_material.castShadow = true;
 head_material.color = new THREE.Color("black");
@@ -218,7 +252,9 @@ var gui = new dat.GUI();
 var h = gui.addFolder("Pose Parameters");
 h.open();
 h.add(R_shoulder.rotation, "z", -0.25*Math.PI, 0.25*Math.PI, 0.01).name("Right Shoulder Angle");
+h.add(right_elbow.rotation, "x", -0.25*Math.PI, 0, 0.01).name("Right Elbow Angle");
 h.add(L_shoulder.rotation, "z", -0.25*Math.PI, 0.25*Math.PI, 0.01).name("Left Shoulder Angle");
+h.add(left_elbow.rotation, "x", 0, 0.25*Math.PI, 0.01).name("Left Elbow Angle");
 h.add(torso.rotation, "x", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Torso Angle");
 h.add(R_hip.rotation, "y", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Right Hip Rotation");
 h.add(L_hip.rotation, "y", -0.5*Math.PI, 0.5*Math.PI, 0.01).name("Left Hip Rotation");
