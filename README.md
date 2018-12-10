@@ -6,7 +6,13 @@ Nicole Schneider
 
 I hierarchically modeled a robot and added lighting effects, shadows, and a shiny surface on the Robot itself.
 
-# Sources:
+# Link to GitHub Website:
+***
+[Click Here](https://nicoleschneider.github.io/Graphics/)
+***
+
+
+## Sources:
 
 ***
 
